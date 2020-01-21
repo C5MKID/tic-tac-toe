@@ -48,3 +48,8 @@ ol, ul {
 .game-info {
   margin-left: 20px;
 }
+
+.game-info .is-active{
+  font-weight: bold;
+  color: #f00;
+}

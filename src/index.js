@@ -75,6 +75,7 @@ class Game extends React.Component {
       ],
       xIsNext: true,
       stepNumber: 0,
+      isAscending: true,
     }
   }
 
@@ -100,17 +101,27 @@ class Game extends React.Component {
     });
   }
 
+  sort() {
+
+  }
+
   render() {
     const history = this.state.history;
-    const current = history[this.state.stepNumber];
-    const winner = calculateWinner(current.squares);
-    const status = winner ? `Winner: ${winner}` : `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
+    const stepNumber = this.state.stepNumber;
+    const current = history[stepNumber];
+    const squares = current.squares;
+    const winner = calculateWinner(squares);
+    const status = winner
+      ? `Winner: ${winner}`
+      : squares.some(item => !item)
+        ? `Next player: ${this.state.xIsNext ? 'X' : 'O'}`
+        : `和局，再开一局吧`;
     const moves = history.map((item, step) => {
       const desc = step ?
-        `Go to move #${step} ${item.row + 1} - ${item.col + 1}`:
-        'Go to game start';
+        `回退到步骤#${step} 列${item.col + 1}行${item.row + 1}`:
+        '开始';
       return (
-        <li key={step}>
+        <li key={step} className={stepNumber === step && 'is-active' || ''}>
           <button onClick={() => this.jumpTo(step)}>{desc}</button>
         </li>
       );
